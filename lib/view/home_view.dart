@@ -3,6 +3,7 @@ import 'package:ficon_gallery/data/cupertino_icon_data.dart';
 import 'package:ficon_gallery/data/material_icon_data.dart';
 import 'package:ficon_gallery/utils/toast_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomeView extends StatefulWidget {
@@ -20,8 +21,61 @@ class _HomeViewState extends State<HomeView> {
   List<Map<String, dynamic>> resultIconList = materialIconList;
   TextEditingController searchController = TextEditingController();
   String searchKey = '';
+  late ScrollController _scrollController;
+  bool _show = false;
 
   String selectedIconType = MATERIAL_ICON;
+
+  @override
+  initState() {
+    _scrollController = ScrollController(
+      initialScrollOffset: 0.0,
+      keepScrollOffset: true,
+    );
+    handleScroll();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(() {});
+    super.dispose();
+  }
+
+  void _toPageTop() {
+    _scrollController.animateTo(
+      _scrollController.position.minScrollExtent,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.ease,
+    );
+  }
+
+  void showFloationButton() {
+    setState(() {
+      _show = true;
+    });
+  }
+
+  void handleScroll() async {
+    _scrollController.addListener(() {
+      if (_scrollController.position.userScrollDirection ==
+          ScrollDirection.reverse) {
+        showFloationButton();
+      }
+      if (_scrollController.position.userScrollDirection ==
+              ScrollDirection.forward ||
+          _scrollController.position.userScrollDirection ==
+              ScrollDirection.idle) {
+        hideFloationButton();
+      }
+    });
+  }
+
+  void hideFloationButton() {
+    setState(() {
+      _show = false;
+    });
+  }
 
   Widget customAppBar = Row(
     children: [
@@ -178,6 +232,7 @@ class _HomeViewState extends State<HomeView> {
               body: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: GridView.builder(
+                    controller: _scrollController,
                     gridDelegate:
                         const SliverGridDelegateWithMaxCrossAxisExtent(
                             maxCrossAxisExtent: 200,
@@ -209,6 +264,14 @@ class _HomeViewState extends State<HomeView> {
                         ),
                       );
                     }),
+              ),
+              floatingActionButton: Visibility(
+                visible: _show,
+                child: FloatingActionButton(
+                  onPressed: () => _toPageTop(),
+                  mini: true,
+                  child: const Icon(Icons.keyboard_arrow_up),
+                ),
               ),
             ));
   }
