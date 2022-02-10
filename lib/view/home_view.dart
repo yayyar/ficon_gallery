@@ -42,7 +42,7 @@ class _HomeViewState extends State<HomeView> {
     super.dispose();
   }
 
-  void _toPageTop() {
+  void toPageTop() {
     _scrollController.animateTo(
       _scrollController.position.minScrollExtent,
       duration: const Duration(milliseconds: 500),
@@ -265,7 +265,7 @@ class _HomeViewState extends State<HomeView> {
               floatingActionButton: Visibility(
                 visible: _show,
                 child: FloatingActionButton(
-                  onPressed: () => _toPageTop(),
+                  onPressed: () => toPageTop(),
                   mini: true,
                   child: const Icon(Icons.keyboard_arrow_up),
                 ),
