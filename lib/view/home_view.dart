@@ -22,7 +22,7 @@ class _HomeViewState extends State<HomeView> {
   TextEditingController searchController = TextEditingController();
   String searchKey = '';
   late ScrollController _scrollController;
-  bool _show = false;
+  bool onTopActionShow = false;
 
   String selectedIconType = MATERIAL_ICON;
 
@@ -52,7 +52,7 @@ class _HomeViewState extends State<HomeView> {
 
   void showFloationButton() {
     setState(() {
-      _show = true;
+      onTopActionShow = true;
     });
   }
 
@@ -73,7 +73,7 @@ class _HomeViewState extends State<HomeView> {
 
   void hideFloationButton() {
     setState(() {
-      if (_show) _show = false;
+      if (onTopActionShow) onTopActionShow = false;
     });
   }
 
@@ -263,7 +263,7 @@ class _HomeViewState extends State<HomeView> {
                     : iconGridView(resultIconList, key: const ValueKey(2)),
               ),
               floatingActionButton: Visibility(
-                visible: _show,
+                visible: onTopActionShow,
                 child: FloatingActionButton(
                   onPressed: () => toPageTop(),
                   mini: true,
