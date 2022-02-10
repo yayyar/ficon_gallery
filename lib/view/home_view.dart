@@ -73,7 +73,7 @@ class _HomeViewState extends State<HomeView> {
 
   void hideFloationButton() {
     setState(() {
-      _show = false;
+      if (_show) _show = false;
     });
   }
 
@@ -87,29 +87,21 @@ class _HomeViewState extends State<HomeView> {
     ],
   );
 
-  _changeIconType(String iconType) {
+  changeIconType(String iconType) {
+    hideFloationButton();
     setState(() {
-      if (iconType == MATERIAL_ICON) {
-        currentIconList = materialIconList;
-        selectedIconType = iconType;
-        if (searchKey.isNotEmpty) {
-          _searchIcon(searchKey);
-        } else {
-          resultIconList = currentIconList;
-        }
-      } else if (iconType == CUPERTINO_ICON) {
-        currentIconList = cupertinoIconList;
-        selectedIconType = iconType;
-        if (searchKey.isNotEmpty) {
-          _searchIcon(searchKey);
-        } else {
-          resultIconList = currentIconList;
-        }
+      selectedIconType = iconType;
+      currentIconList =
+          iconType == MATERIAL_ICON ? materialIconList : cupertinoIconList;
+      if (searchKey.isNotEmpty) {
+        searchIcon(searchKey);
+      } else {
+        resultIconList = currentIconList;
       }
     });
   }
 
-  _searchIcon(String enteredKeyword) {
+  searchIcon(String enteredKeyword) {
     searchKey = enteredKeyword;
     setState(() {
       if (searchKey.isEmpty) {
@@ -126,7 +118,7 @@ class _HomeViewState extends State<HomeView> {
   _clearSearchKey() {
     searchController.clear();
     searchKey = '';
-    _searchIcon(searchKey);
+    searchIcon(searchKey);
   }
 
   Widget customSearchBar(double width) {
@@ -134,7 +126,7 @@ class _HomeViewState extends State<HomeView> {
       width: width > 500 ? 60.w : 150.w,
       child: TextField(
         controller: searchController,
-        onChanged: (value) => _searchIcon(value),
+        onChanged: (value) => searchIcon(value),
         decoration: InputDecoration(
             prefixIcon: const Icon(Icons.search),
             suffixIcon: searchKey.isNotEmpty
@@ -164,6 +156,41 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
+  Widget iconGridView(List<Map<String, dynamic>> iconList, {required Key key}) {
+    return GridView.builder(
+        key: key,
+        controller: _scrollController,
+        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 200,
+            childAspectRatio: 1,
+            crossAxisSpacing: 15,
+            mainAxisSpacing: 15),
+        itemCount: iconList.length,
+        itemBuilder: (BuildContext ctx, index) {
+          return InkWell(
+            onTap: () => FlutterClipboard.copy('${iconList[index]['label']}')
+                .then((value) =>
+                    showToast(message: '${iconList[index]['label']}')),
+            child: Container(
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(iconList[index]['icon']),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Text(iconList[index]['name'])
+                ],
+              ),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  border: Border.all(color: Colors.grey)),
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -178,7 +205,7 @@ class _HomeViewState extends State<HomeView> {
                     child: Row(
                       children: [
                         TextButton(
-                          onPressed: () => _changeIconType(MATERIAL_ICON),
+                          onPressed: () => changeIconType(MATERIAL_ICON),
                           style: ButtonStyle(
                               elevation: MaterialStateProperty.all(0.0),
                               backgroundColor: MaterialStateProperty.all(
@@ -201,7 +228,7 @@ class _HomeViewState extends State<HomeView> {
                           width: 20,
                         ),
                         TextButton(
-                          onPressed: () => _changeIconType(CUPERTINO_ICON),
+                          onPressed: () => changeIconType(CUPERTINO_ICON),
                           style: ButtonStyle(
                               elevation: MaterialStateProperty.all(0.0),
                               backgroundColor: MaterialStateProperty.all(
@@ -231,39 +258,9 @@ class _HomeViewState extends State<HomeView> {
               ),
               body: Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: GridView.builder(
-                    controller: _scrollController,
-                    gridDelegate:
-                        const SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: 200,
-                            childAspectRatio: 1,
-                            crossAxisSpacing: 15,
-                            mainAxisSpacing: 15),
-                    itemCount: resultIconList.length,
-                    itemBuilder: (BuildContext ctx, index) {
-                      return InkWell(
-                        onTap: () => FlutterClipboard.copy(
-                                '${resultIconList[index]['label']}')
-                            .then((value) => showToast(
-                                message: '${resultIconList[index]['label']}')),
-                        child: Container(
-                          alignment: Alignment.center,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(resultIconList[index]['icon']),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              Text(resultIconList[index]['name'])
-                            ],
-                          ),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              border: Border.all(color: Colors.grey)),
-                        ),
-                      );
-                    }),
+                child: selectedIconType == MATERIAL_ICON
+                    ? iconGridView(resultIconList, key: const ValueKey(1))
+                    : iconGridView(resultIconList, key: const ValueKey(2)),
               ),
               floatingActionButton: Visibility(
                 visible: _show,
