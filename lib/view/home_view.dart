@@ -157,38 +157,42 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Widget iconGridView(List<Map<String, dynamic>> iconList, {required Key key}) {
-    return GridView.builder(
-        key: key,
-        controller: _scrollController,
-        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 200,
-            childAspectRatio: 1,
-            crossAxisSpacing: 15,
-            mainAxisSpacing: 15),
-        itemCount: iconList.length,
-        itemBuilder: (BuildContext ctx, index) {
-          return InkWell(
-            onTap: () => FlutterClipboard.copy('${iconList[index]['label']}')
-                .then((value) =>
-                    showToast(message: '${iconList[index]['label']}')),
-            child: Container(
-              alignment: Alignment.center,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(iconList[index]['icon']),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Text(iconList[index]['name'])
-                ],
+    return Scrollbar(
+      thumbVisibility: true,
+      controller: _scrollController,
+      child: GridView.builder(
+          key: key,
+          controller: _scrollController,
+          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 200,
+              childAspectRatio: 1,
+              crossAxisSpacing: 15,
+              mainAxisSpacing: 15),
+          itemCount: iconList.length,
+          itemBuilder: (BuildContext ctx, index) {
+            return InkWell(
+              onTap: () => FlutterClipboard.copy('${iconList[index]['label']}')
+                  .then((value) =>
+                      showToast(message: '${iconList[index]['label']}')),
+              child: Container(
+                alignment: Alignment.center,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(iconList[index]['icon']),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(iconList[index]['name'])
+                  ],
+                ),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(color: Colors.grey)),
               ),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  border: Border.all(color: Colors.grey)),
-            ),
-          );
-        });
+            );
+          }),
+    );
   }
 
   @override
