@@ -1,10 +1,11 @@
 import 'package:clipboard/clipboard.dart';
 import 'package:ficon_gallery/data/cupertino_icon_data.dart';
 import 'package:ficon_gallery/data/material_icon_data.dart';
-import 'package:ficon_gallery/utils/toast_helper.dart';
+import 'package:ficon_gallery/view/color_scheme_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -158,7 +159,6 @@ class _HomeViewState extends State<HomeView> {
 
   Widget iconGridView(List<Map<String, dynamic>> iconList, {required Key key}) {
     return Scrollbar(
-      thumbVisibility: true,
       controller: _scrollController,
       child: GridView.builder(
           key: key,
@@ -173,7 +173,9 @@ class _HomeViewState extends State<HomeView> {
             return InkWell(
               onTap: () => FlutterClipboard.copy('${iconList[index]['label']}')
                   .then((value) =>
-                      showToast(message: '${iconList[index]['label']}')),
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text("${iconList[index]['label']}"),
+                      ))),
               child: Container(
                 alignment: Alignment.center,
                 child: Column(
@@ -200,7 +202,7 @@ class _HomeViewState extends State<HomeView> {
     double width = MediaQuery.of(context).size.width;
     return ScreenUtilInit(
         designSize: const Size(375, 667),
-        builder: () => Scaffold(
+        builder: (context, _) => Scaffold(
               appBar: AppBar(
                 title: width >= 500 ? customAppBar : null,
                 actions: [
@@ -209,21 +211,29 @@ class _HomeViewState extends State<HomeView> {
                     child: Row(
                       children: [
                         TextButton(
+                          onPressed: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (_) => const ColorSchemeExample())),
+                          child: const Text(
+                            'ColorScheme',
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            _launchURL("https://fonts.google.com/icons");
+                          },
+                          child: const Text(
+                            'Material3',
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        TextButton(
                           onPressed: () => changeIconType(MATERIAL_ICON),
-                          style: ButtonStyle(
-                              elevation: MaterialStateProperty.all(0.0),
-                              backgroundColor: MaterialStateProperty.all(
-                                  selectedIconType == MATERIAL_ICON
-                                      ? Colors.white
-                                      : Colors.transparent),
-                              foregroundColor: MaterialStateProperty.all(
-                                  selectedIconType == MATERIAL_ICON
-                                      ? Colors.blue
-                                      : Colors.white),
-                              textStyle: MaterialStateProperty.all(
-                                  const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500))),
                           child: const Text(
                             'Material',
                           ),
@@ -233,20 +243,6 @@ class _HomeViewState extends State<HomeView> {
                         ),
                         TextButton(
                           onPressed: () => changeIconType(CUPERTINO_ICON),
-                          style: ButtonStyle(
-                              elevation: MaterialStateProperty.all(0.0),
-                              backgroundColor: MaterialStateProperty.all(
-                                  selectedIconType == CUPERTINO_ICON
-                                      ? Colors.white
-                                      : Colors.transparent),
-                              foregroundColor: MaterialStateProperty.all(
-                                  selectedIconType == CUPERTINO_ICON
-                                      ? Colors.blue
-                                      : Colors.white),
-                              textStyle: MaterialStateProperty.all(
-                                  const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500))),
                           child: const Text(
                             'Cupertino',
                           ),
@@ -275,5 +271,14 @@ class _HomeViewState extends State<HomeView> {
                 ),
               ),
             ));
+  }
+
+  void _launchURL(String url) async {
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
