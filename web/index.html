@@ -100,6 +100,22 @@
       // Service workers not supported. Just drop the <script> tag.
       loadMainDartJs();
     }
+
+    var element = document.getElementsByTagName('body')[0];
+
+    var handleScroll = function() {
+        element.scrollTo(0, 0);  // required when scroll bar is drgged
+    };
+
+    element.addEventListener('scroll', handleScroll, false);
+
+    var handleEvent = function(e) {
+      e.preventDefault();      // disables scrolling by mouse wheel and touch move
+    };
+
+    element.addEventListener('scroll', handleEvent,{passive: false});
+    element.addEventListener('mousewheel', handleEvent,{passive: false});
+    element.addEventListener('touchmove', handleEvent, {passive: false});
   </script>
 </body>
 </html>

@@ -5550,19 +5550,19 @@ const List<Map<String, dynamic>> materialIconData = [
   },
   {"name": "class_", "icon": Icons.class_, "label": "Icons.class_"},
   {
-    "name": "class__outlined",
-    "icon": Icons.class__outlined,
-    "label": "Icons.class__outlined"
+    "name": "class_outlined",
+    "icon": Icons.class_outlined,
+    "label": "Icons.class_outlined"
   },
   {
-    "name": "class__rounded",
-    "icon": Icons.class__rounded,
-    "label": "Icons.class__rounded"
+    "name": "class_rounded",
+    "icon": Icons.class_rounded,
+    "label": "Icons.class_rounded"
   },
   {
-    "name": "class__sharp",
-    "icon": Icons.class__sharp,
-    "label": "Icons.class__sharp"
+    "name": "class_sharp",
+    "icon": Icons.class_sharp,
+    "label": "Icons.class_sharp"
   },
   {
     "name": "clean_hands",
@@ -22063,8 +22063,8 @@ const List<Map<String, dynamic>> materialIconData = [
   },
   {
     "name": "pie_chart_outlined",
-    "icon": Icons.pie_chart_outlined,
-    "label": "Icons.pie_chart_outlined"
+    "icon": Icons.pie_chart_outline_outlined,
+    "label": "Icons.pie_chart_outline_outlined"
   },
   {
     "name": "pie_chart_rounded",
@@ -26693,24 +26693,24 @@ const List<Map<String, dynamic>> materialIconData = [
   },
   {"name": "sip_sharp", "icon": Icons.sip_sharp, "label": "Icons.sip_sharp"},
   {
-    "name": "six__ft_apart",
-    "icon": Icons.six__ft_apart,
-    "label": "Icons.six__ft_apart"
+    "name": "six_ft_apart",
+    "icon": Icons.six_ft_apart,
+    "label": "Icons.six_ft_apart"
   },
   {
-    "name": "six__ft_apart_outlined",
-    "icon": Icons.six__ft_apart_outlined,
-    "label": "Icons.six__ft_apart_outlined"
+    "name": "six_ft_apart_outlined",
+    "icon": Icons.six_ft_apart_outlined,
+    "label": "Icons.six_ft_apart_outlined"
   },
   {
-    "name": "six__ft_apart_rounded",
-    "icon": Icons.six__ft_apart_rounded,
-    "label": "Icons.six__ft_apart_rounded"
+    "name": "six_ft_apart_rounded",
+    "icon": Icons.six_ft_apart_rounded,
+    "label": "Icons.six_ft_apart_rounded"
   },
   {
-    "name": "six__ft_apart_sharp",
-    "icon": Icons.six__ft_apart_sharp,
-    "label": "Icons.six__ft_apart_sharp"
+    "name": "six_ft_apart_sharp",
+    "icon": Icons.six_ft_apart_sharp,
+    "label": "Icons.six_ft_apart_sharp"
   },
   {"name": "six_k", "icon": Icons.six_k, "label": "Icons.six_k"},
   {
