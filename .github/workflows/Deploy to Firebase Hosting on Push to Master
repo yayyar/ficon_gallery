@@ -1,0 +1,31 @@
+name: Deploy to Firebase Hosting on Push to Master
+
+on:
+  push:
+    branches:
+      - master # Change this to your production branch name if different
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      # Set up Flutter environment
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable' # Adjust the Flutter version if necessary
+
+      # Get dependencies
+      - run: flutter pub get
+
+      # Build your Flutter web app
+      - run: flutter build web --release
+
+      # Deploy to Firebase Hosting
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_FICONGALLERY }}'
+          projectId: ficongallery
+          channelId: live # This will deploy to your public site
