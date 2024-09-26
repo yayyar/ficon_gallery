@@ -223,7 +223,7 @@ class _HomeViewState extends State<HomeView> {
                         ),
                         TextButton(
                           onPressed: () {
-                            launchURL("https://fonts.google.com/icons");
+                            _launchURL("https://fonts.google.com/icons");
                           },
                           child: const Text(
                             'Material3',
@@ -273,7 +273,7 @@ class _HomeViewState extends State<HomeView> {
             ));
   }
 
-  void launchURL(String url) async {
+  void _launchURL(String url) async {
     final uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri);
