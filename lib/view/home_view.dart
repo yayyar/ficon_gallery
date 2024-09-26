@@ -1,10 +1,10 @@
 import 'package:clipboard/clipboard.dart';
 import 'package:ficon_gallery/data/cupertino_icon_data.dart';
 import 'package:ficon_gallery/data/material_icon_data.dart';
-import 'package:ficon_gallery/view/color_scheme_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeView extends StatefulWidget {
@@ -211,9 +211,7 @@ class _HomeViewState extends State<HomeView> {
                     child: Row(
                       children: [
                         TextButton(
-                          onPressed: () => Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (_) => const ColorSchemeExample())),
+                          onPressed: () => context.go("/colorScheme"),
                           child: const Text(
                             'ColorScheme',
                           ),

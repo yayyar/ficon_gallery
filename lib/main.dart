@@ -1,4 +1,4 @@
-import 'package:ficon_gallery/view/home_view.dart';
+import 'package:ficon_gallery/route/router.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -9,13 +9,14 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Ficon Gallery',
       theme: ThemeData(
+        useMaterial3: true,
         primarySwatch: Colors.blue,
       ),
-      home: const HomeView(),
+      routerConfig: router,
     );
   }
 }

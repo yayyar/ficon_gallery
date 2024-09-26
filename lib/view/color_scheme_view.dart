@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 
 const Widget divider = SizedBox(height: 10);
 
-class ColorSchemeExample extends StatefulWidget {
-  const ColorSchemeExample({super.key});
+class ColorSchemeExampleView extends StatefulWidget {
+  const ColorSchemeExampleView({super.key});
 
   @override
-  State<ColorSchemeExample> createState() => _ColorSchemeExampleState();
+  State<ColorSchemeExampleView> createState() => _ColorSchemeExampleViewState();
 }
 
-class _ColorSchemeExampleState extends State<ColorSchemeExample> {
+class _ColorSchemeExampleViewState extends State<ColorSchemeExampleView> {
   Color selectedColor = ColorSeed.baseColor.color;
   Brightness selectedBrightness = Brightness.light;
   double selectedContrast = 0.0;
